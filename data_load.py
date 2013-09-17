@@ -7,6 +7,7 @@ import QSTK.qstkutil.DataAccess as da
 import datetime as dt
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
 print "Pandas Version", pd.__version__
 
@@ -26,7 +27,7 @@ def simulate(startDate, endDate, symbols, allocations):
 
     # Creating an object of the dataaccess class with Yahoo as the source.
     # we will fetch data from finance.yahoo.com
-    c_dataobj = da.DataAccess('Yahoo')
+    c_dataobj = da.DataAccess('Yahoo', cachestalltime=0)
 
     # Keys to be read from the data, it is good to read everything in one go.
     ls_keys = ['open', 'high', 'low', 'close', 'volume', 'actual_close']
@@ -46,9 +47,21 @@ def simulate(startDate, endDate, symbols, allocations):
 
     # Numpy matrix of filled data values
     na_rets = df_rets.values
-    
-    print na_rets
 
+    nrows = 5
+    ncols = 5
+    #na_rets1 = np.arange(nrows,na_rets)
+
+    # na_portrets = np.sum(na_rets * lf_port_alloc, axis=1)
+
+    # returnize0 works on ndarray and not dataframes.
+    # tsu.returnize1(na_rets)
+    
+    last = na_rets[:,3]
+    print np.std(last)
+    
+    #for s_key in na_rets:
+    #    print s_key
 
     return (volatility, avgDailyReturn, sharpeRatio, cumulativeReturn)
 
